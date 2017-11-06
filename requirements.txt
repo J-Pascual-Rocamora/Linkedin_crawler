@@ -1,0 +1,6 @@
+beautifulsoup4==4.6.0
+Django==1.11.7
+lxml==4.1.1
+psycopg2==2.7.3.2
+pytz==2017.3
+selenium==3.7.0
