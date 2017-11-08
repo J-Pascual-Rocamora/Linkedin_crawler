@@ -28,9 +28,9 @@ def minimize_people():
 	f_input.close()
 
 	# Eliminates duplicates
-	print 'Number of links before sorting: ' + str(len(people_links))
+	print ('Number of links before sorting: ' + str(len(people_links)))
 	min_people = list(set(people_links))
-	print 'Number of links after sorting: ' + str(len(min_people))
+	print ('Number of links after sorting: ' + str(len(min_people)))
 	
 	duplicated_links = len(people_links) - len(min_people)
 	
@@ -45,8 +45,8 @@ def minimize_people():
 		f.write(str(min_people[i]))
 	f.close()
 
-	print 'Output file: ' + str(output_file)
-	print ''
+	print ('Output file: ' + str(output_file))
+	print ('')
 	
 	logger.info('%s duplicated links removed', duplicated_links)
 	

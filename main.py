@@ -64,9 +64,9 @@ def commandLineArgs():
 
 def linkedin_search_engine(browser, pages_per_search):
 
-	print '*'*25
-	print 'LINKEDIN SEARCH ENGINE HAS BEEN CALLED'
-	print '*'*25
+	print ('*'*25)
+	print ('LINKEDIN SEARCH ENGINE HAS BEEN CALLED')
+	print ('*'*25)
 
 	logging.info('Linkedin crawler is called')
 	
@@ -109,8 +109,8 @@ if __name__=="__main__":
 			terminal_path = str(cwd) + r'\terminal_output.out'
 		else:
 			terminal_path = str(cwd) + r'/terminal_output.out'
-		print 'Terminal log redirected to:'
-		print terminal_path
+		print ('Terminal log redirected to:')
+		print (terminal_path)
 		terminal_output = open(terminal_path, 'w')
 		sys.stdout = terminal_output
 	
@@ -130,9 +130,9 @@ if __name__=="__main__":
 	if lnkd_search_flag == True:
 		linkedin_search_engine(browser, pages_per_search)
 	
-	print '*'*25
-	print 'INITIATING SCRAPPER'
-	print '*'*25
+	print ('*'*25)
+	print ('INITIATING SCRAPPER')
+	print ('*'*25)
 	
 	# Open Links_file
 	cwd = os.getcwd()
@@ -156,71 +156,54 @@ if __name__=="__main__":
 				lknd_analyzer.analyse(browser, url)
 			if debugging_flag == True:
 				lknd_analyzer.debug_analyse(browser, url)
-			print ''
-			print '-'*25
-			print ''
+			print ('')
+			print ('-'*25)
+			print ('')
 			old_xcp_countr = exceps_counter
 			exceps_counter = 0
-		except Exception, e:
+		except Exception as e:
 			exceps_counter = exceps_counter + 1
 			logger.error('Unable to analyse %s', url)
 			logger.error(e)
-			print e
+			print ('ERROR: Unable to analyse ' + str(url.encode('utf-8','ignore')))
+			print (e)
+			print ('')
+			print ('-'*25)
+			print ('')
 			pass
 			
 		link_counter = link_counter + 1
 		if link_counter % 100 == 0:
-			#terminal_output.close()
-			#f_path  = terminal_path
-			#title   = 'Parsed ' + str(i) + ' profiles.'
-			#message = 'This is an standard update.'
-			#to_addr = 'javierpascualr@gmail.com'
 			email_data = email_templates.standard_update(i)
 			emailing.send_email(terminal_path, email_data[0], email_data[1], email_data[2])
-			print 'email sent'
-			#terminal_output = open(terminal_path, 'a')
+			print ('email sent')
 			
 		if exceps_counter > 3:
 			buggy_email_flag = True
 			
 		if (exceps_counter == 0) and (buggy_email_flag == True):
-			#terminal_output.close()
-			#f_path  = terminal_path
-			#title   = 'Too many errors: ' + str(exceps_counter)
-			#message = 'Bad news, there have been ' + str(exceps_counter) + ' errors on a row.\nMight be something wrong?'
-			#to_addr = 'javierpascualr@gmail.com'
 			email_data = email_templates.buggy_email(old_xcp_countr)
 			emailing.send_email(terminal_path, email_data[0], email_data[1], email_data[2])
 			buggy_email_flag = False
-			print 'email sent'
-			#terminal_output = open(terminal_path, 'a')
+			print ('email sent')
 			
 		if (exceps_counter == 10) and (buggy_email_flag == False):
 			email_data = email_templates.warning_email()
 			emailing.send_email(terminal_path, email_data[0], email_data[1], email_data[2])
-			print 'email sent'
+			print ('email sent')
 
 	browser.quit()
 	
 	logger.info('Linkedin crawler has finished')
 	
 	f_path  = str(cwd) + r'\\' + logger_file
-	#title   = 'Linkedin crawled has finished'
-	#message = 'Another run has been finished. You might want to restart the crawler.'
-	#to_addr = 'javierpascualr@gmail.com'
 	email_data = email_templates.job_done()
 	emailing.send_email(f_path,  email_data[0], email_data[1], email_data[2])
-	print 'email sent'
+	print ('email sent')
 	
 	
 	if terminal_file_flag == True:
-		#terminal_output.close()
-		#f_path  = terminal_path
-		#title   = 'Linkedin crawled has finished'
-		#message = 'Another run has been finished. You might want to restart the crawler.'
-		#to_addr = 'javierpascualr@gmail.com'
-		#email_data = email_templates.job_done()
 		emailing.send_email(terminal_path, email_data[0], email_data[1], email_data[2])
-		print 'email sent'
+		print ('email sent')
 		terminal_output.close()
 	

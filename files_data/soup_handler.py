@@ -1,7 +1,7 @@
 # Soup Handler
 import os
 import re
-import urlparse
+#import urlparse
 from bs4 import BeautifulSoup
 
 
@@ -189,4 +189,4 @@ def get_experience(soup):
 	
 if __name__=="__main__":
 
-	print 'Hey this is been run'
+	print ('Hey this is been run')

@@ -7,8 +7,10 @@ import csv
 import time
 import random
 import logging
-import buscador
-import soup_handler
+#import buscador as buscador
+from . import buscador
+#import soup_handler
+from . import soup_handler
 
 def profile_matchs(browser, year):
 	'''Analyses linkedin profiles. Reads the profiles from \files\vars\people_sorted.txt. Checks if the profile meets the requirements. If so, the profile data is analysed and write into to different files. A csv file in \results\results.csv. A semicolon separated file \results\results.txt.
@@ -56,7 +58,7 @@ def profile_matchs(browser, year):
 	total = len(profiles)
 	
 	for i in range(0, total):
-		print 'Analyzing (' + str(i) + '/' + str(total) + ') | ' + str(number_matchs) + ' matchs | ' + str(error_count) + ' exceptions'
+		print ('Analyzing (' + str(i) + '/' + str(total) + ') | ' + str(number_matchs) + ' matchs | ' + str(error_count) + ' exceptions')
 		url = profiles[i]
 		try:
 			browser.get(url)
@@ -66,25 +68,25 @@ def profile_matchs(browser, year):
 			# Check if the profile meets the requirement
 			match = soup_handler.match_date(web_html, year)
 			if match == False:
-				print '\tThe profile does not meet the requirements'
-				print ''
+				print ('\tThe profile does not meet the requirements')
+				print ('')
 			if match == True:
 				number_matchs = number_matchs + 1
 				# Extract the information of the profile and write it to output files
 				try:
-					print '\tThe profile meets the requirements'
-					print '\tExtracting profile data...'
+					print ('\tThe profile meets the requirements')
+					print ('\tExtracting profile data...')
 					# Get the header information
 					info = soup_handler.get_info(web_html)
 					# Get the experience information
 					tbp = soup_handler.get_experience(web_html)
 	
-					print '\tName:            ' + str(info[0])
-					print '\tActual Position: ' + str(info[1])
-					print '\tActual Company:  ' + str(info[2])
-					print '\tStarted:         ' + str(info[3])
-					print '\tResidence:       ' + str(info[4])
-					print ''
+					print ('\tName:            ' + str(info[0]))
+					print ('\tActual Position: ' + str(info[1]))
+					print ('\tActual Company:  ' + str(info[2]))
+					print ('\tStarted:         ' + str(info[3]))
+					print ('\tResidence:       ' + str(info[4]))
+					print ('')
 	
 					# Creates the full experience text
 					text_one = ''
@@ -125,34 +127,34 @@ def profile_matchs(browser, year):
 					f2.write(str(new_line) + '\n')
 
 				except Exception as e:
-					print 'Exception'
+					print ('Exception')
 					error_count = error_count + 1
-					print '\tCould not extract the information'
+					print ('\tCould not extract the information')
 					logging.info(str(url) + '\n')
 					logging.info('Could not extract information from link\n')
 					logging.debug('Link number: ' + str(i) + '\n\n')
 					continue
 				
 		except:
-			print 'Exception'
+			print ('Exception')
 			error_count = error_count + 1
 			logging.info(str(url) + '\n')
 			logging.info('Could not check the profile\n')
 			logging.debug('Link number: ' + str(i) + '\n\n')
 			continue
 			
-		print ""
+		print ("")
 	
-	print 'Total number of matchs:     ' + str(number_matchs) + ' out of ' + str(total) + ' links'
-	print 'Total number of exceptions: ' + str(error_count) + ' out of ' + str(total) + ' links'
+	print ('Total number of matchs:     ' + str(number_matchs) + ' out of ' + str(total) + ' links')
+	print ('Total number of exceptions: ' + str(error_count) + ' out of ' + str(total) + ' links')
 		
 	f.close()
 	f2.close()
 	
-	print ''
-	print 'Output files: ' 
-	print '\t'+ str(results_csv)
-	print '\t'+ str(results_sm)
+	print ('')
+	print ('Output files: ')
+	print ('\t'+ str(results_csv))
+	print ('\t'+ str(results_sm))
 
 	return
 	

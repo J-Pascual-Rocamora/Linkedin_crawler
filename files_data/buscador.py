@@ -1,13 +1,15 @@
 import os, time, random, sys
-import urlparse
+#import urlparse
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-from data import lnkd_dat
+#from data import lnkd_dat
+from . import data
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotInteractableException
-import profile_html_handler as profile_html_handler
+#import profile_html_handler as profile_html_handler
+from . import profile_html_handler
 
 
 def open_browser():
@@ -69,24 +71,24 @@ def logeate(browser):
 		time.sleep(random.uniform(1.5, 3.9))
 		# Login
 		emailElement = browser.find_element_by_id('session_key-login')
-		emailElement.send_keys(lnkd_dat[0])
+		emailElement.send_keys(data.lnkd_dat[0])
 		time.sleep(random.uniform(3.5, 6.9))
 		passElement = browser.find_element_by_id('session_password-login')
-		passElement.send_keys(lnkd_dat[1])
+		passElement.send_keys(data.lnkd_dat[1])
 		passElement.submit()
 
 	except:
 		# Try to login on a different url
 		browser.get('https://www.linkedin.com/home')
 		time.sleep(random.uniform(1.5, 3.9))
-		Login
+		#Login
 		emailElement = browser.find_element_by_id('login-email')
-		emailElement.send_keys(lnkd_dat[0])
+		emailElement.send_keys(data.lnkd_dat[0])
 		time.sleep(random.uniform(3.5, 6.9))
 		passElement = browser.find_element_by_id('login-password')
-		passElement.send_keys(lnkd_dat[1])
+		passElement.send_keys(data.lnkd_dat[1])
 		passElement.submit()
-		print 'Browser error'
+		print ('Browser error')
 	time.sleep(random.uniform(3.5, 6.9))
 	
 	return 
@@ -104,7 +106,7 @@ def scroll_to_bottom(browser):
 	SCROLL_PAUSE_TIME = 1.5
 	# Get scroll height
 	last_height = browser.execute_script("return document.body.scrollHeight")
-	print 'Scrolling to bottom'
+	print ('Scrolling to bottom')
 	while True:
 		# Scroll down to bottom
 		for i in range(0, 10):
@@ -172,14 +174,14 @@ def expand_other_links(browser):
 	'''
 	
 	
-	print 'Expanding other links section'
+	print ('Expanding other links section')
 	try:
 		element = browser.find_element_by_xpath("//button[@class='contact-see-more-less link-without-visited-state']")
 		if element:
 			element.click()
-			print 'Other links section expanded'
+			print ('Other links section expanded')
 	except:
-		print 'Other links button not found'
+		print ('Other links button not found')
 		pass
 
 	return	
@@ -200,10 +202,10 @@ def expand_all(browser):
 			browser.find_element_by_xpath("//button[@class='pv-profile-section__see-more-inline link']").click()
 			time.sleep(random.uniform(0.5, 0.9))
 	except NoSuchElementException:
-		print 'No more expadable buttons'
+		print ('No more expadable buttons')
 		pass
 	except ElementNotInteractableException:
-		print 'Element no interactable'
+		print ('Element no interactable')
 		pass
 	return
 
@@ -243,12 +245,12 @@ def expand_skills(browser):
 	
 	for i in range(0, len(all_classes)):
 		button_xpath = '//button[@class=\'' + str(all_classes[i]) + '\']'
-		print button_xpath
+		print (button_xpath)
 		buttons = browser.find_elements_by_xpath(button_xpath)
 		if buttons:
 			buttons[0].click()
 			time.sleep(random.uniform(0.5, 0.9))
-			print 'Skills expanded'
+			print ('Skills expanded')
 			break
 			
 	return
@@ -267,7 +269,7 @@ def expand_header(browser):
 	try:
 		browser.find_element_by_xpath("//button[@class='pv-top-card-section__summary-toggle-button button-tertiary-small mt4']").click()
 	except NoSuchElementException:
-		print 'No resume to be expanded'
+		print ('No resume to be expanded')
 		pass
 	return
 
@@ -288,7 +290,7 @@ def expand_all_activity(browser):
 			button.click()
 			
 	except:
-		print 'No more expandable buttons'
+		print ('No more expandable buttons')
 	
 	return
 	
@@ -309,13 +311,13 @@ def expand_all_accomplishments(browser):
 		#if flechitas:
 		#	flechitas[0].click()
 		attribute_name = buttons[i].get_attribute("data-control-name")
-		print 'data-control-name: ' + str(attribute_name)
+		print ('data-control-name: ' + str(attribute_name))
 		broken_attribute = str(attribute_name.split('_'))
 		if 'expand' in broken_attribute:
-			print 'Clicking'
+			print ('Clicking')
 			buttons[i].click()
 			time.sleep(random.uniform(2.5, 3.1))
-	print 'Total chevrons found: ' + str(len(buttons))	
+	print ('Total chevrons found: ' + str(len(buttons)))
 	
 	return
 
@@ -332,7 +334,7 @@ def click_that_accomplishment_button(browser, button_label):
 	'''
 	
 	
-	print 'Clicking accomplishment button: ' + str(button_label)
+	print ('Clicking accomplishment button: ' + str(button_label))
 	button_xpath = "//button[@data-control-name='" + str(button_label) + "']"
 	scroll_to_item(browser, button_xpath)
 	buttons = browser.find_elements_by_xpath(button_xpath)
@@ -354,9 +356,9 @@ def get_extra_interests(browser, url):
 		soup = get_the_soup(browser)
 		interest_followers = profile_html_handler.get_extra_interests(soup)
 		for i in range(0, len(interest_followers[0])):
-			print 'Topic: '     + str(interest_followers[0][i].encode('utf-8'))
-			print 'Followers: ' + str(interest_followers[1][i].encode('utf-8'))
-			print ''
+			print ('Topic: '     + str(interest_followers[0][i].encode('utf-8')))
+			print ('Followers: ' + str(interest_followers[1][i].encode('utf-8')))
+			print ('')
 	scroll_interets(browser)
 	return
 
@@ -374,7 +376,7 @@ def scroll_interets(browser):
 			if new_amount != old_amount:
 				interest_elements[-1].location_once_scrolled_into_view
 	except:
-		print 'Empty interests block'
+		print ('Empty interests block')
 		pass
 	
 	return
@@ -386,7 +388,7 @@ def open_received_recommendations(browser):
 	if tabs:
 		try:
 			tabs[0].click()
-			print 'Open received recommendations'
+			print ('Open received recommendations')
 			time.sleep(random.uniform(0.3, 0.5))
 
 			expand_button_xpath = "//button[@class='pv-profile-section__see-more-inline link']"
@@ -397,15 +399,15 @@ def open_received_recommendations(browser):
 						expand_buttons[i].click()
 						time.sleep(random.uniform(0.1, 0.3))
 					except NoSuchElementException:
-						print 'No more expadable buttons'
+						print ('No more expadable buttons')
 						pass
 					except ElementNotInteractableException:
-						print 'Element no interactable'
+						print ('Element no interactable')
 						pass
 		except NoSuchElementException:
-			print 'No tab found'
+			print ('No tab found')
 		except ElementNotInteractableException:
-			print 'Tab no clickable'
+			print ('Tab no clickable')
 	return
 	
 def open_given_recommendations(browser):
@@ -416,7 +418,7 @@ def open_given_recommendations(browser):
 	if tabs:
 		try:
 			tabs[1].click()
-			print 'Open given recommendations'
+			print ('Open given recommendations')
 			time.sleep(random.uniform(0.3, 0.5))
 
 			expand_button_xpath = "//button[@class='pv-profile-section__see-more-inline link']"
@@ -427,15 +429,15 @@ def open_given_recommendations(browser):
 						expand_buttons[i].click()
 						time.sleep(random.uniform(0.1, 0.3))
 					except NoSuchElementException:
-						print 'No more expadable buttons'
+						print ('No more expadable buttons')
 						pass
 					except ElementNotInteractableException:
-						print 'Element no interactable'
+						print ('Element no interactable')
 						pass	
 		except NoSuchElementException:
-			print 'No tab found'
+			print ('No tab found')
 		except ElementNotInteractableException:
-			print 'Tab no clickable'
+			print ('Tab no clickable')
 	return
 	
 def get_the_soup(browser):
@@ -477,9 +479,9 @@ def save_the_soup(soup, file_name):
 	
 	path = directory + str(file_name) + '.html'
 	f = open(path, 'w')
-	f.write(str(soup))
+	f.write(str(soup.encode('utf-8', 'ignore')))
 	f.close()
-	print 'html save in: ' + str(path)
+	print ('html save in: ' + str(path))
 	return
 	
 if __name__=="__main__":

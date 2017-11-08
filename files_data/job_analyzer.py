@@ -45,10 +45,10 @@ def filter_jobs(job_experience, filter_type, year='0'):
 				'past_jobs']
 	
 	if filter_type not in options:
-		print str(filter_type) + ' is not a valid value.'
-		print 'Valid values are:'
+		print (str(filter_type) + ' is not a valid value.')
+		print ('Valid values are:')
 		for i in range(0, len(options)):
-			print options[i]
+			print (options[i])
 		sys.exit('filter_jobs recieved a not valid option value.')
 	
 	saved_positions  = []
@@ -168,10 +168,10 @@ def format_date(date_in, what_date):
 						  'end_date']
 
 	if what_date.lower() not in what_date_options:
-		print str(what_date_options) + ' is not a valid value.'
-		print 'Valid values are:'
+		print (str(what_date_options) + ' is not a valid value.')
+		print ('Valid values are:')
 		for i in range(0, len(what_date_options)):
-			print what_date_options[i]
+			print (what_date_options[i])
 		sys.exit('format_date recieved a not valid value.')
 	
 	months_dictionary = {
@@ -253,14 +253,15 @@ def most_recent_job(job_experience):
 	saved_resumes    = []
 	saved_jobs       = []
 	
-	previous_date = "31/01/1900"
-
+	#previous_date = "31/01/1900"
+	# Format previous_date so both dates have same format
+	previous_date = time.strptime("31/01/1900", "%d/%m/%Y")
 	current_jobs = filter_jobs(job_experience, 'current_jobs')
 		
 	for i in range(0, len(current_jobs[0])):
 	
 		formated_date = format_date(current_jobs[2][i], 'start_date')
-
+		
 		if formated_date > previous_date:
 			previous_date = formated_date
 			saved_positions  = current_jobs[0][i]
@@ -332,10 +333,10 @@ def get_starting_date(input_pool, field):
 					'education']
 
 	if field.lower() not in fields_pool:
-		print str(field) + ' is not a valid value'
-		print 'Correct values are:'
+		print (str(field) + ' is not a valid value')
+		print ('Correct values are:')
 		for i in range(0, len(fields_pool)):
-			print fields_pool[i]
+			print (fields_pool[i])
 		sys.exit('get_starting_date recieved an incorrect value')
 
 	if field.lower() == 'job_experience':
@@ -397,10 +398,10 @@ def get_end_date(input_pool, field):
 					'education']
 
 	if field.lower() not in fields_pool:
-		print str(field) + ' is not a valid value'
-		print 'Correct values are:'
+		print (str(field) + ' is not a valid value')
+		print ('Correct values are:')
 		for i in range(0, len(fields_pool)):
-			print fields_pool[i]
+			print (fields_pool[i])
 		sys.exit('get_starting_date recieved an incorrect value')
 					
 	if field.lower() == 'job_experience':
@@ -459,4 +460,4 @@ def get_titles_from_name(input_string):
 	return matched_titles
 	
 if __name__=="__main__":
-	print 'HI'
+	print ('HI')

@@ -1,7 +1,8 @@
 # 2nd: Extracts the linkedin pofiles
 
-import buscador
-import urlparse
+#import buscador
+from . import buscador
+#import urlparse
 import logging
 import re
 import os
@@ -10,7 +11,8 @@ import time
 import random
 import sys
 from bs4 import BeautifulSoup
-import soup_handler
+#import soup_handler
+from . import soup_handler
 	
 
 def get_them(browser):
@@ -52,8 +54,8 @@ def get_them(browser):
 	exceptions_count = 0
 	
 	for i in range(0, len(job_links)):
-		print 'Analizing link (' + str(i + 1) + '/' + str(len(job_links)) + ')'
-		print job_links[i]
+		print ('Analizing link (' + str(i + 1) + '/' + str(len(job_links)) + ')')
+		print (job_links[i])
 		try:
 			# Go to the search page
 			browser.get(job_links[i])
@@ -66,21 +68,21 @@ def get_them(browser):
 			for n in range(0, len(profiles)):
 				f.write(str(profiles[n]) + '\n')
 			total_profiles = total_profiles + len(profiles)
-			print '\tProfiles found: ' + str(len(profiles))
-		except Exception, e:
-			print e
+			print ('\tProfiles found: ' + str(len(profiles)))
+		except Exception as e:
+			print (e)
 			exceptions_count = exceptions_count + 1
 			logger.error('Could not get profiles from %s', job_links[i])
 			logger.error(e)
 			continue
-		print ""
+		print ("")
 	
 	f.close()
 	
-	print 'Profile links found:        ' + str(total_profiles)
-	print "Total amount of exceptions: " + str(exceptions_count)
-	print 'Results saved in: '           + str(output_file)
-	print ""
+	print ('Profile links found:        ' + str(total_profiles))
+	print ("Total amount of exceptions: " + str(exceptions_count))
+	print ('Results saved in: '           + str(output_file))
+	print ("")
 	logger.info('%s Linkedind profiles found', total_profiles)
 	
 	return

@@ -32,8 +32,8 @@ from files_data.models import *
 
 def debug_analyse(browser, url):
 	
-	print 'debug_analyse has been called'
-	print 'Analyzing: ' + str(url.encode('utf-8', 'ignore'))
+	print ('debug_analyse has been called')
+	print ('Analyzing: ' + str(url.encode('utf-8', 'ignore')))
 	
 	accomplishment_buttons_pool = [ 'accomplishments_expand_publications',
 									'accomplishments_expand_certifications',
@@ -49,11 +49,11 @@ def debug_analyse(browser, url):
 	# Goes to desired url
 	browser.get(url)
 	time.sleep(random.uniform(0.7, 1.3))
-	print 'URL has been open'
+	print ('URL has been open')
 	# Refresh URL address
 	url = browser.current_url
-	print 'Current url is:'
-	print url
+	print ('Current url is:')
+	print (url)
 	# Expands top summary if any
 	buscador.expand_summary(browser)
 	time.sleep(random.uniform(0.3, 0.5))
@@ -85,13 +85,17 @@ def debug_analyse(browser, url):
 		directory = str(cwd) + r'/output_texts/'
 	if not os.path.exists(directory):
 		os.makedirs(directory)
-	name_for_file = str(header_info[0].encode('utf-8', 'replace').replace(' ', '_')) + str('.txt')
+	name_no_b = str(header_info[0].replace('\'b', '')) + str('.txt')
+	name_clean = name_no_b.replace('\'', '')
+	name_no_spaces = name_no_b.replace(' ', '_')
+	name_for_file = name_no_spaces.encode('utf-8', 'ignore')
+	#name_for_file = str(header_info[0].encode('utf-8', 'replace').replace(' ', '_')) + str('.txt')
 	file_name = name_for_file
-	path = directory + file_name
+	path = directory + file_name.decode()
 	f = open(path, 'w')
 	
-	print 'Creating a new output file:'
-	print directory
+	print ('Creating a new output file:')
+	print (directory)
 	
 	
 	f.write('*'*12 + 'URL ' + '*'*12 + '\n')
@@ -104,7 +108,7 @@ def debug_analyse(browser, url):
 	f.write('*'*12 + ' NAME ' + '*'*12 + '\n')
 	candidate_name = header_info[0]
 	f.write(str(candidate_name.encode('utf-8', 'ignore')) + '\n')
-	print str(candidate_name.encode('utf-8', 'ignore'))
+	print (str(candidate_name.encode('utf-8', 'ignore')))
 	
 	f.write('*'*12 + ' TYPE ' + '*'*12 + '\n')
 	f.write('Here goes the type number \n')
@@ -351,8 +355,8 @@ def debug_analyse(browser, url):
 	recomendation_buttons_names = profile_html_handler.get_recommendation_buttons(web_html)
 	received_number = re.findall(r'\d+', str(recomendation_buttons_names[0]))
 	given_number    = re.findall(r'\d+', str(recomendation_buttons_names[1]))
-	print 'Recieved recss: ' + str(received_number[0])
-	print 'Given recsssss: ' + str(given_number[0])
+	print ('Recieved recss: ' + str(received_number[0]))
+	print ('Given recsssss: ' + str(given_number[0]))
 	
 	## Open recieved recomendations
 	buscador.open_received_recommendations(browser)
@@ -674,9 +678,9 @@ def debug_analyse(browser, url):
 	# all_activity: [0] articles | [1] posts | [2] liked
 	
 	all_activity = profile_html_handler.get_posts(web_html)
-	print 'number articles: ' + str(len(all_activity[0]))
-	print 'number posts:    ' + str(len(all_activity[1]))
-	print 'number liked:    ' + str(len(all_activity[2]))
+	print ('number articles: ' + str(len(all_activity[0])))
+	print ('number posts:    ' + str(len(all_activity[1])))
+	print ('number liked:    ' + str(len(all_activity[2])))
 	
 	f.write('*'*12 + ' ACTIVITY_ARTICLES ' + '*'*12 + '\n')
 	activity_articles_text = ''
@@ -817,7 +821,7 @@ def debug_analyse(browser, url):
 		
 	f.close()
 
-	print 'The file ' + str(path) + ' is cooked'
+	print ('The file ' + str(path) + ' is cooked')
 	
 	try:
 		## Add object to db
@@ -882,11 +886,11 @@ def debug_analyse(browser, url):
 													all_links                    = other_links,
 													)
 
-		print 'Adding new employee...'
+		print ('Adding new employee...')
 		external_employee.save()
-		print 'Employee added to the database'
-	except Exception, e:
-		print 'Could not add employee to database'
+		print ('Employee added to the database')
+	except Exception as e:
+		print ('Could not add employee to database')
 		print(e)
 		f_errors.write('Error on the database\n')
 		f_errors.write(str(links_pool[i]) + '\n')
@@ -916,7 +920,7 @@ def analyse(browser, url):
 	
 	logger.info('Analyzing %s', link_info)
 
-	print 'Analyzing: ' + str(url.encode('utf-8', 'ignore'))
+	print ('Analyzing: ' + str(url.encode('utf-8', 'ignore')))
 	
 	accomplishment_buttons_pool = [ 'accomplishments_expand_publications',
 									'accomplishments_expand_certifications',
@@ -955,9 +959,9 @@ def analyse(browser, url):
 		all_educations = profile_html_handler.get_education(web_html)
 		all_volunteers = profile_html_handler.get_volunteer(web_html)
 	except:
-		print 'Here is a weird exception'
+		print ('Here is a weird exception')
 		debu_file = open('html_code.html', 'w')
-		debu_file.write(str(web_html))
+		debu_file.write(str(web_html.encode('utf-8', 'ignore')))
 		sys.exit()
 	previous_jobs  = job_analyzer.filter_jobs(all_experience, 'past_jobs') 
 	current_jobs    = job_analyzer.filter_jobs(all_experience, 'current_jobs')
@@ -968,7 +972,13 @@ def analyse(browser, url):
 	
 	candidate_name = header_info[0]
 	
-	job_title_prev = previous_jobs[0][0]
+	#job_title_prev = previous_jobs[0][0]
+	
+	if len(previous_jobs[0]) > 0:
+		job_title_prev = previous_jobs[0][0]
+	else:
+		job_title_prev = ''
+
 	
 	location = []
 	for n in range(0, len(current_jobs[0])):
@@ -1074,8 +1084,8 @@ def analyse(browser, url):
 	recomendation_buttons_names = profile_html_handler.get_recommendation_buttons(web_html)
 	received_number = re.findall(r'\d+', str(recomendation_buttons_names[0]))
 	given_number    = re.findall(r'\d+', str(recomendation_buttons_names[1]))
-	print 'Recieved recss: ' + str(received_number[0])
-	print 'Given recsssss: ' + str(given_number[0])
+	print ('Recieved recss: ' + str(received_number[0]))
+	print ('Given recsssss: ' + str(given_number[0]))
 	
 	## Open recieved recomendations
 	buscador.open_received_recommendations(browser)
@@ -1320,9 +1330,9 @@ def analyse(browser, url):
 	# all_activity: [0] articles | [1] posts | [2] liked
 	
 	all_activity = profile_html_handler.get_posts(web_html)
-	print 'number articles: ' + str(len(all_activity[0]))
-	print 'number posts:    ' + str(len(all_activity[1]))
-	print 'number liked:    ' + str(len(all_activity[2]))
+	print ('number articles: ' + str(len(all_activity[0])))
+	print ('number posts:    ' + str(len(all_activity[1])))
+	print ('number liked:    ' + str(len(all_activity[2])))
 	
 	activity_articles_text = ''
 	for i in range(0, len(all_activity[0])):
@@ -1453,11 +1463,11 @@ def analyse(browser, url):
 												all_links                    = other_links,
 												)
 	
-		print 'Adding new employee...'
+		print ('Adding new employee...')
 		external_employee.save()
-		print 'Employee added to the database'
+		print ('Employee added to the database')
 		logger.info('Succesfully added to database')
-	except Exception, e:
+	except Exception as e:
 		print(e)
 		logger.error('Unable to create new database entry')
 		logger.error(e)
@@ -1504,11 +1514,19 @@ if __name__=="__main__":
 	buscador.logeate(browser)
 	time.sleep(random.uniform(0.5, 1.3))
 
-	#analyse(links_pool[0])
-	debug_analyse(browser, links_pool[-1])
+	#'https://www.linkedin.com/in/ACoAAAAL4r0BJfkixoD9BeYyvPaddjQBAn_ZZEE/'
+	#'https://www.linkedin.com/in/ACoAAAWKe6QB6woJrrpDcLv9qyi9uKxM3TPgIbo/'
+	
+	
+	#analyse(bowser, links_pool[-1])
+	#debug_analyse(browser, links_pool[-1])
+	#debug_analyse(browser, 'https://www.linkedin.com/in/destinyamcclain/')
+	debug_analyse(browser, 'https://www.linkedin.com/in/rileyhilliard/')
 	
 	#for i in range(0, len(links_pool)):
-	#	print links_pool[i]
+	#	print (i)
+	#	print (links_pool[i])
+	#	analyse(browser, links_pool[i])
 	#	#try:
 	#	previous_user = ExternalEmployee.objects.filter(url=links_pool[i])
 	#	if not previous_user:

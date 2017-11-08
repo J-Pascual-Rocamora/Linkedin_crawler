@@ -41,12 +41,12 @@ def get_top_card(web_html):
 		name_text = name_html.text.strip()
 	if not name_html:
 		name_text = ''
-		print 'ERROR: No name_section not found'
-		print 'Other labels found:'
+		print ('ERROR: No name_section not found')
+		print ('Other labels found:')
 		all_classes = top_card_section.find_all('h1')
 		for i in range(0, len(all_classes)):
 			try:
-				print '\t' + str(all_classes[i]['class'])
+				print ('\t' + str(all_classes[i]['class']))
 			except:
 				pass
 	#print 'Name: ' + str(name_text.encode('utf-8'))
@@ -151,12 +151,12 @@ def get_other_links(web_html):
 			links_pool.append(link['href'])
 	
 	if not contact_info_block:
-		print 'ERROR: No other links section found'
-		print 'Other sections found:'
+		print ('ERROR: No other links section found')
+		print ('Other sections found:')
 		all_secs = web_html.fin_all('section')
 		for i in range(0, len(all_secs)):
 			try:
-				print '\t' + str(all_secs[i]['class'])
+				print ('\t' + str(all_secs[i]['class']))
 			except:
 				pass
 	
@@ -205,12 +205,12 @@ def get_jobs(web_html):
 				break
 
 		if not experience_block:		
-			print 'ERROR: No experience_block found.'
-			print 'Others uls found:'
+			print ('ERROR: No experience_block found.')
+			print ('Others uls found:')
 			all_uls = experience_section.find_all('ul')
 			for i in range(0, len(all_uls)):
 				try:
-					print '\t' + str(all_uls[i]['class'])
+					print ('\t' + str(all_uls[i]['class']))
 				except:
 					pass
 	
@@ -321,12 +321,12 @@ def get_education(web_html):
 				break
 				
 		if not education_block:
-			print 'ERROR: no education_block found'
-			print 'Others uls found:'
+			print ('ERROR: no education_block found')
+			print ('Others uls found:')
 			all_uls = education_section.find_all('ul')
 			for i in range(0, len(all_uls)):
 				try:
-					print '\t' + str(all_uls[i]['class'])
+					print ('\t' + str(all_uls[i]['class']))
 				except:
 					pass
 		
@@ -452,12 +452,12 @@ def get_volunteer(web_html):
 				break
 	
 		if not volunteer_block:
-			print 'ERROR: No volunteer_block found.'
-			print 'Other uls found:'
+			print ('ERROR: No volunteer_block found.')
+			print ('Other uls found:')
 			all_uls = volunteer_section.fin_all('ul')
 			for i in range(0, len(all_uls)):
 				try:
-					print '\t' + str(all_uls[i]['class'])
+					print ('\t' + str(all_uls[i]['class']))
 				except:
 					pass
 	
@@ -731,10 +731,10 @@ def get_given_recommendations(web_html):
 		recommendations_block = recommendations_html.find_all('ul', attrs={'id':'recommendation-list'})
 		
 	if not recommendations_block[1]:
-		print 'ERROR: no recommendations_block[1] found.'
-		print 'Other uls found:'
+		print ('ERROR: no recommendations_block[1] found.')
+		print ('Other uls found:')
 		for i in range(0, len(recommendations_block)):
-			print '\t' + str(recommendations_block[i])
+			print ('\t' + str(recommendations_block[i]))
 		
 	if recommendations_block[1]:
 		for child in recommendations_block[1].children:
@@ -812,11 +812,11 @@ def get_recommendations(web_html, block_number):
 		recommendations_block = recommendations_html.find_all('ul', attrs={'id':'recommendation-list'})
 		
 		if not recommendations_block[block_number]:
-			print 'ERROR: recommendations_block[' + str(block_number) + '] not found.'
-			print 'Other uls found:'
+			print ('ERROR: recommendations_block[' + str(block_number) + '] not found.')
+			print ('Other uls found:')
 			for i in range(0, len(recommendations_block)):
 				try:
-					print '\t' + str(recommendations_block[i]['id'])
+					print ('\t' + str(recommendations_block[i]['id']))
 				except:
 					pass
 		
@@ -923,12 +923,12 @@ def get_publications_data(web_html):
 			break
 	
 	if not publications_list:
-		print 'ERROR: publications_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: publications_list not found.')
+		print ('Other uls found:')
 		all_uls = publications_block.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1021,12 +1021,12 @@ def get_certifications_data(web_html):
 			break
 
 	if not certifications_list:
-		print 'ERROR: certifications_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: certifications_list not found.')
+		print ('Other uls found:')
 		all_uls = certifications_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 			
@@ -1093,12 +1093,12 @@ def get_honors_data(web_html):
 			break
 	
 	if not honors_list:
-		print 'ERROR: honors_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: honors_list not found.')
+		print ('Other uls found:')
 		all_uls = honors_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1167,12 +1167,12 @@ def get_languages_data(web_html):
 			break
 	
 	if not languages_list:
-		print 'ERROR: languages_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: languages_list not found.')
+		print ('Other uls found:')
 		all_uls = languages_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1230,12 +1230,12 @@ def get_organizations_data(web_html):
 			break
 	
 	if not organization_list:
-		print 'ERROR: organization_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: organization_list not found.')
+		print ('Other uls found:')
 		all_uls = organization_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1302,12 +1302,12 @@ def get_patents_data(web_html):
 			break
 	
 	if not patents_list:
-		print 'ERROR: patents_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: patents_list not found.')
+		print ('Other uls found:')
 		all_uls = patents_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1385,12 +1385,12 @@ def get_projects_data(web_html):
 			break
 	
 	if not projects_list:
-		print 'ERROR: projects_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: projects_list not found.')
+		print ('Other uls found:')
 		all_uls = projects_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1466,12 +1466,12 @@ def get_course_data(web_html):
 			break
 	
 	if not course_list:
-		print 'ERROR: course_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: course_list not found.')
+		print ('Other uls found:')
 		all_uls = course_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1531,12 +1531,12 @@ def get_test_scores_data(web_html):
 			break
 	
 	if not scorers_list:
-		print 'ERROR: scorers_list not found.'
-		print 'Other uls found:'
+		print ('ERROR: scorers_list not found.')
+		print ('Other uls found:')
 		all_uls = scorers_section.find_all('ul')
 		for i in range(0, len(all_uls)):
 			try:
-				print '\t' + str(all_uls[i]['class'])
+				print ('\t' + str(all_uls[i]['class']))
 			except:
 				pass
 	
@@ -1673,7 +1673,6 @@ def get_extra_interests(web_html):
 
 	return interest_followers
 
-
 def get_posts(web_html):
 	'''Recieves a LinkedIn profile activity information, returns a list of the articles, posts and liked posts shown.
 	The function identifies the posts and sends the posts html to the function analyse_post.
@@ -1707,13 +1706,17 @@ def get_posts(web_html):
 					[4] : Number of comments
 	'''
 
-
+	articles_labels = [ 'feed-base-update mh0 Elevation-2dp relative feed-base-update--reshare reshare-update ember-view',
+						'feed-base-update mh0 Elevation-2dp relative feed-base-update--channel channel-update article ember-view',
+						'feed-base-update mh0 Elevation-2dp relative feed-base-update--viral viral-update article ember-view']
+	
+	
 	articles_pool = []
 	posts_pool    = []
 	liked_pool    = []
 	all_activity  = []
 
-	artciles_flag    = False
+	articles_flag    = False
 	posts_flag       = False
 	liked_posts_flag = False
 	
@@ -1722,20 +1725,19 @@ def get_posts(web_html):
 		name_text = name_html.text.strip()
 	
 	voyager_feed = web_html.find('div', attrs={'class':'pv-recent-activity-detail__feed-container feed-container-theme ember-view'})
-	
+		
 	if voyager_feed:
-		for child in voyager_feed.children:
-			if len(child) > 1:
-				# Create html item
-				article = BeautifulSoup(str(child), 'html.parser')
-				# Get top bar
-				bar_html = article.find('div', attrs={'class':'feed-s-top-bar Sans-13px-black-70% ember-view'})
+		articles_stack = voyager_feed.find_all('article')
+		print ('Number of activity posts: ' + str(len(articles_stack)))
+		for i in range(0, len(articles_stack)):
+			if 'mh0' in articles_stack[i]['class']:
+				bar_html = articles_stack[i].find('div', attrs={'class':'feed-base-top-bar Sans-13px-black-70% ember-view'})
 				if bar_html:
 					breaken_bar = bar_html.text.strip().split(' ')
 					if ('likes' in breaken_bar) or ('liked' in breaken_bar):
 						# This are liked posts
 						liked_posts_flag = True
-						liked_post = analyse_post(article)
+						liked_post = analyse_post(articles_stack[i])
 						liked_pool.append(liked_post)
 					if 'commented' in breaken_bar:
 						# This is a commented post (not been retrieved at the moment)
@@ -1746,7 +1748,8 @@ def get_posts(web_html):
 				if not bar_html:
 					# Get source
 					source_text = ''
-					source_html = article.find('h3', attrs={'class':'feed-s-image-description__byline Sans-13px-black-55%'})
+					#source_html = articles_stack[i].find('h3', attrs={'class':'feed-s-image-description__byline Sans-13px-black-55%'})
+					source_html = articles_stack[i].find('h3', attrs={'class':'feed-base-image-description__byline Sans-13px-black-55%'})
 					if source_html:
 						source_text = source_html.text.strip()
 					if source_text:
@@ -1754,19 +1757,19 @@ def get_posts(web_html):
 						if source_no_linkedin == name_text:
 							# This are articles written by the candidate
 							articles_flag = True
-							article = analyse_post(article)
-							articles_pool.append(article)
+							article = analyse_post(articles_stack[i])
+							articles_stack.append(article)
 						if source_no_linkedin != name_text:
 							# This is a post
 							posts_flag = True
-							post = analyse_post(article)
+							post = analyse_post(articles_stack[i])
 							posts_pool.append(post)
 					if source_text == '':
 						# This are also posts
-						post = analyse_post(article)
+						post = analyse_post(articles_stack[i])
 						posts_pool.append(post)	
 	
-	if artciles_flag == False:
+	if articles_flag == False:
 		empty_article = ['NULL', 'NULL', 'NULL', 'NULL', 'NULL']
 		articles_pool.append(empty_article)
 	if posts_flag == False:
@@ -1781,6 +1784,9 @@ def get_posts(web_html):
 	all_activity.append(liked_pool)
 	
 	return all_activity
+
+	
+	
 	
 def analyse_post(post_html):
 	'''Recieves the html of a post, returns information about that post.
@@ -1807,30 +1813,75 @@ def analyse_post(post_html):
 	comments_pool = []
 	post_data     = []
 	
+	#all_divis = post_html.find_all('div')
+	#for i in range(0, len(all_divis)):
+	#	try:
+	#		print (all_divis[i]['class'])
+	#	except:
+	#		pass
+	
+	
+	labels_pool = [ 'feed-s-update__description feed-s-inline-show-more-text ember-view',
+					'feed-base-update__description feed-base-inline-show-more-text ember-view',
+					'feed-base-update__description feed-base-inline-show-more-text is-empty ember-view',
+					'feed-base-inline-show-more-text is-empty ember-view',
+					'feed-base-inline-show-more-text ember-view']
+	
 	# Get text
-	text = 'NULL'
-	text_html = post_html.find('div', attrs={'class':'feed-s-update__description feed-s-inline-show-more-text ember-view'})
-	if text_html:
-		text = text_html.text.strip()
+	text = 'NULL'	
+	for i in range(0, len(labels_pool)):
+		text_html = post_html.find('div', attrs={'class':labels_pool[i]})
+		if text_html:
+			item_text = text_html.text.strip()
+			if item_text:
+				text = unicodetoascii(item_text)
+			break
+	
+	if text == 'NULL':		
+		text_html = post_html.find('p', attrs={'class':'feed-base-main-content--mini-update Sans-15px-black-70% feed-base-main-content ember-view'})
+		if text_html:
+			item_text = text_html.text.strip()
+			if item_text:
+				text = unicodetoascii(item_text)
+
+	original_html = post_html.find('span', attrs={'data-control-name':'original_share'})
+	if original_html:
+		original_text = original_html.text.strip()
+		if item_text:
+			text = unicodetoascii(original_text)
+			
 	texts_pool.append(text)
 	# Title shared
 	title_text = 'NULL'
-	shared_block = post_html.find('div', attrs={'class':'display-content ember-view'})
-	if shared_block:
-		title_html = shared_block.find('h2', attrs={'class':'feed-s-image-description__headline Sans-15px-black-85%-semibold'})
-		if title_html:
-			title_text = title_html.text.strip()
+	title_html = post_html.find('h2', attrs={'class':'feed-base-image-description__headline Sans-15px-black-85%-semibold'})
+	if title_html:
+		title_text = title_html.text.strip()
+	
+	title_text = unicodetoascii(title_text)
 	titles_pool.append(title_text)
 	# Get source
 	source_text = 'NULL'
-	if shared_block:
-		source_html = shared_block.find('h3', attrs={'class':'feed-s-image-description__byline Sans-13px-black-55%'})
-		if source_html:
-			source_text = source_html.text.strip()
+	source_html = post_html.find('h3', attrs={'class':'feed-base-image-description__byline Sans-13px-black-55%'})
+	if source_html:
+		source_text = source_html.text.strip()
+	source_text = unicodetoascii(source_text)
 	sources_pool.append(source_text)
 	# Get number of likes and number of comments
 	likes_number = '0'
+	likes_html = post_html.find('button', attrs={'class':'feed-base-social-counts__num-likes feed-base-social-counts__count-value Sans-13px-black-55% hoverable-link-text'})
+	if likes_html:
+		like_spans = likes_html.find_all('span')
+		likes_text = like_spans[0].text.strip()
+		likes_number = re.findall('\d+', str(likes_text))[0]
+	
 	comments_number = '0'
+	comments_html = post_html.find('button', attrs={'class':'feed-base-social-counts__num-comments feed-base-social-counts__count-value Sans-13px-black-55% hoverable-link-text'})
+	if comments_html:
+		comment_spans = comments_html.find_all('span')
+		comment_text = comment_spans[0].text.strip()
+		comments_number = re.findall('\d+', str(comment_text))[0]
+	
+	
 	numbers_block = post_html.find('ul', attrs={'class':'feed-s-social-counts ember-view'})
 	if numbers_block:
 		for item in numbers_block.children:
@@ -1881,6 +1932,83 @@ def get_followers_number(web_html):
 			followers_number = str(no_follower)
 	
 	return followers_number
+
+def unicodetoascii(text):
+# http://www.utf8-chartable.de/unicode-utf8-table.pl?start=8192&number=128&utf8=string-literal
+
+    TEXT = (text.
+			replace('\\n', ' ').
+    		replace('\\xe2\\x80\\x99', "'").
+    		replace('\xe2\x80\x99',    "'").
+            replace('\\xc3\\xa9',      'e').
+            replace('\xc3\xa9',        'e').
+            replace('\\xe2\\x80\\x90', '-').
+            replace('\xe2\x80\x90',    '-').
+            replace('\\xe2\\x80\\x91', '-').
+            replace('\xe2\x80\x91',    '-').
+            replace('\\xe2\\x80\\x92', '-').
+            replace('\xe2\x80\x92',    '-').
+            replace('\\xe2\\x80\\x93', '-').
+            replace('\xe2\x80\x93',    '-').
+            replace('\\xe2\\x80\\x94', '-').
+            replace('\xe2\\x80\x94',   '-').
+            replace('\\xe2\\x80\\x98', "'").
+            replace('\xe2\x80\x98',    "'").
+            replace('\\xe2\\x80\\x99', "'").
+            replace('\xe2\x80\x99',    "'").
+            replace('\\xe2\\x80\\x9b', "'").
+            replace('\xe2\x80\x9b',    "'").
+            replace('\\xe2\\x80\\x9c', '"').
+            replace('\xe2\x80\x9c',    '"').
+            replace('\\xe2\\x80\\x9d', '"').
+            replace('\xe2\x80\x9d',    '"').
+            replace('\\xe2\\x80\\x9e', '"').
+            replace('\xe2\x80\x9e',    '"').
+            replace('\\xe2\\x80\\x9f', '"').
+            replace('\xe2\x80\x9f',    '"').
+            replace('\\xe2\\x80\\xa6', '...').
+            replace('\xe2\x80\xa6',    '...').
+            replace('\\xe2\\x80\\xb2', "'").
+            replace('\xe2\x80\xb2',    "'").
+            replace('\\xe2\\x80\\xb3', "'").
+            replace('\xe2\x80\xb3',    "'").
+            replace('\\xe2\\x80\\xb4', "'").
+            replace('\xe2\x80\xb4',    "'").
+            replace('\\xe2\\x80\\xb5', "'").
+            replace('\xe2\x80\xb5',    "'").
+            replace('\\xe2\\x80\\xb6', "'").
+            replace('\xe2\x80\xb6',    "'").
+            replace('\\xe2\\x80\\xb7', "'").
+            replace('\xe2\x80\xb7',    "'").
+            replace('\\xe2\\x81\\xba', "+").
+            replace('\xe2\x81\xba',    "+").
+            replace('\\xe2\\x81\\xbb', "-").
+            replace('\xe2\x81\xbb',    "-").
+            replace('\\xe2\\x81\\xbc', "=").
+            replace('\xe2\x81\xbc',    "=").
+            replace('\\xe2\\x81\\xbd', "(").
+            replace('\xe2\x81\xbd',    "(").
+            replace('\\xe2\\x81\\xbe', ")").
+            replace('\xe2\x81\xbe',    ")").
+            replace('\\xc2\\xa0',       "").
+            replace('\xc2\xa0',         "").
+			replace('\n', ' ').
+			replace('\\', '')
+                 )
+	
+    while '  ' in TEXT:
+        TEXT = TEXT.replace('  ', ' ')
+
+    if TEXT[0] == ' ':
+        TEXT = TEXT[1:]
+    try:
+        if TEXT[-1] == ' ':
+            TEXT = TEXT[:-1]
+    except:
+        pass
+		
+		
+    return TEXT
 	
 if __name__=="__main__":
-	print 'Hi'
+	print ('Hi')

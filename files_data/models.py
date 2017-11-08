@@ -3,7 +3,8 @@ import sys
 try:
     from django.db import models
     from django.contrib.postgres.fields import ArrayField
-except  Exception:
+except  Exception as e:
+    print (e)
     print("There was an error loading django modules. Do you have django installed?")
     sys.exit()
 

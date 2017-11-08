@@ -19,13 +19,13 @@ def generate_links(max_pages):
 	logger = logging.getLogger('Linkedin_logger')
 
 	# Printing for tracking
-	print 'The positions been looked for are:'
+	print ('The positions been looked for are:')
 	for j in range(0, len(accounting_job_titles)):
-		print '\t' + str(accounting_job_titles[j])
+		print ('\t' + str(accounting_job_titles[j]))
 
-	print ''
+	print ('')
 	
-	print 'Generating links...'
+	print ('Generating links...')
 
 	url_head = 'https://www.linkedin.com/search/results/people/?facetGeoRegion=%5B%22us%3A0%22%5D&keywords='
 	url_end  = '&origin=GLOBAL_SEARCH_HEADER'
@@ -51,10 +51,10 @@ def generate_links(max_pages):
 	
 	logger.info('%s linkedin search links generated', total_links)
 	
-	print '\t' + str(total_links) + ' links generated'
-	print ''
-	print 'Search links are stored in: ' + str(output_file)
-	print ''
+	print ('\t' + str(total_links) + ' links generated')
+	print ('')
+	print ('Search links are stored in: ' + str(output_file))
+	print ('')
 	return
 
 if __name__=="__main__":
