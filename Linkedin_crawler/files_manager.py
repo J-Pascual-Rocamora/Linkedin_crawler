@@ -14,6 +14,10 @@ def reset_files():
 	results_dir = str(cwd) + r'\results'
 	if not os.path.exists(results_dir):
 		os.makedirs(results_dir)
+		
+	vars_dir = str(cwd) + r'\vars'
+	if not os.path.exists(vars_dir):
+		os.makedirs(vars_dir)
 	
 	error_log = log_dir + r'\error.log.txt'
 	f = open(error_log, 'w')
@@ -44,24 +48,23 @@ def create_folders():
 	
 	cwd = os.getcwd()
 	
+	necessary_folders = []
+	
 	# Create folders paths
 	if sys.platform == 'win32':
-		log_dir      = str(cwd) + r'\log'
-		results_dir  = str(cwd) + r'\results'
-		output_texts = str(cwd) + r'\output_texts'
-		vars_dir     = str(cwd) + '\Linkedin_crawler\vars'
+		necessary_folders.append(str(cwd) + r'\log')
+		necessary_folders.append(str(cwd) + r'\results')
+		necessary_folders.append(str(cwd) + r'\output_texts')
+		necessary_folders.append(str(cwd) + r'\Linkedin_crawler\vars')
 	
 	else:
-		log_dir      = str(cwd) + r'/log'
-		results_dir  = str(cwd) + r'/results'
-		output_texts = str(cwd) + r'/output_texts'
-		vars_dir     = str(cwd) + '/Linkedin_crawler/vars'
+		necessary_folders.append(str(cwd) + r'/log')
+		necessary_folders.append(str(cwd) + r'/results')
+		necessary_folders.append(str(cwd) + r'/output_texts')
+		necessary_folders.append(str(cwd) + r'/Linkedin_crawler/vars')
 	
-	
-	if not os.path.exists(log_dir):
-			os.makedirs(log_dir)
-	
-	if not os.path.exists(results_dir):
-			os.makedirs(results_dir)
+	for i in range(0, len(necessary_folders)):
+		if not os.path.exists(necessary_folders[i]):
+			os.makedirs(necessary_folders[i])
 	
 	return
