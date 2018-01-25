@@ -1,6 +1,6 @@
 import os
 
-from Linkedin_crawler.inputs.titles import job_titles
+from Linkedin_crawler.inputs.emailing_data import emailing_data
 
 
 def standard_update(profiles_parsed):

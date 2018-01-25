@@ -37,7 +37,7 @@ def send_email(f_path, title, message, to_addr):
 	
     logger.info('Emailing has been called')
 	
-    from_addr = sender_data
+    from_addr = emailing_data[1]
 
     msg = MIMEMultipart()    
     
