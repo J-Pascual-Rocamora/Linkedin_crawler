@@ -1,14 +1,15 @@
 import os
 
+from Linkedin_crawler.inputs.titles import job_titles
+
 
 def standard_update(profiles_parsed):
 
 	email_data = []
 
-	#f_path  = terminal_path
 	title   = 'Parsed ' + str(profiles_parsed) + ' profiles.'
 	message = 'This is an standard update.'
-	to_addr = 'javierpascualr@gmail.com'
+	to_addr = emailing_data[0]
 
 	email_data.append(title)
 	email_data.append(message)
@@ -22,7 +23,7 @@ def buggy_email(exceps_counter):
 
 	title   = 'Too many errors: ' + str(exceps_counter)
 	message = 'Bad news, there have been ' + str(exceps_counter) + ' errors on a row.\nMight be something wrong?'
-	to_addr = 'javierpascualr@gmail.com'
+	to_addr = emailing_data[0]
 
 	email_data.append(title)
 	email_data.append(message)
@@ -36,7 +37,7 @@ def warning_email():
 
 	title   = 'Warning email'
 	message = 'More than ten consecutive errors have been found. This is worring.'
-	to_addr = 'javierpascualr@gmail'
+	to_addr = emailing_data[0]
 	
 	email_data.append(title)
 	email_data.append(message)
@@ -52,7 +53,7 @@ def job_done():
 
 	title   = 'Linkedin crawled has finished'
 	message = 'Another run has been finished. You might want to restart the crawler.'
-	to_addr = 'javierpascualr@gmail.com'
+	to_addr = emailing_data[0]
 	
 	email_data.append(title)
 	email_data.append(message)

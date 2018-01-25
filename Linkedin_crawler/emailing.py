@@ -14,19 +14,20 @@ from email.mime.base import MIMEBase
 from email import encoders
 import logging
 
+from Linkedin_crawler.inputs.emailing_data import emailing_data
+
 def send_email(f_path, title, message, to_addr):
     '''
     This function connects to a server, build an email, and sends the email.
     
 	Parameters
 	----------
-    f_path  
+	f_path  
 			Full path of the file.
-    title   
+	title   
 			Email title.
-    message  
+	message  
 			Screen output of the simulation.
-			
 	to_addr
 			Email recipient.
     '''
@@ -36,7 +37,7 @@ def send_email(f_path, title, message, to_addr):
 	
     logger.info('Emailing has been called')
 	
-    from_addr = "Javi <no-reply@capacity.net>"
+    from_addr = sender_data
 
     msg = MIMEMultipart()    
     
@@ -78,7 +79,7 @@ def send_email(f_path, title, message, to_addr):
     # re-identify ourselves as an encrypted connection
     server.ehlo()
     print ("Complete Initiation")
-    server.login('AKIAJOC3IPEHADEG3SJQ', 'AmA5rVttk4UbVavp3m9mUSjkndOEnGUGvvSo8+bMwSmX')
+    server.login(emailing_data[1], emailing_data[2])
     text = msg.as_string()
     print ("Sending mail...")
     server.sendmail(from_addr, to_addr, text)
@@ -89,8 +90,8 @@ def send_email(f_path, title, message, to_addr):
 
 if __name__=='__main__':
     
-	to_addr = "javierpascualr@gmail.com"
-	f_path = r'C:\Users\Javier\Desktop\Capacity\Linkedin_DB\linkedin_crawler.log'
+	to_addr = emailing_data[0]
+	f_path = file_path
 	title = 'Hello!!'
 	message = 'I have miss you.\nWhere have you been??'
 	

@@ -19,6 +19,8 @@ import Linkedin_crawler.emailing as emailing
 import Linkedin_crawler.email_templates as email_templates
 import Linkedin_crawler.files_manager as files_manager
 
+from Linkedin_crawler.inputs.emailing_data import emailing_data
+
 # Django specific settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
