@@ -1,15 +1,14 @@
 import os, time, random, sys
-#import urlparse
 import re
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-#from data import lnkd_dat
-from . import data
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotInteractableException
-#import profile_html_handler as profile_html_handler
+
+from . import data
 from . import profile_html_handler
+
 
 
 def open_browser():
@@ -19,7 +18,7 @@ def open_browser():
 	time.sleep(random.uniform(3.5, 6.9))
 
 	return browser
-	
+
 def open_headless():
 
 	# Two below are needed for headless firefox
@@ -33,7 +32,20 @@ def open_headless():
 	browser = webdriver.Firefox(firefox_binary=binary)
 
 	return browser
-	
+
+def open_chrome():
+
+	from seleniumrequests import Chrome
+	#from pyvirtualdisplay import Display
+
+	#display = Display(visible=0, size=(1440, 900))
+	#display.start()
+	browser = Chrome()
+
+	print('Chrome browser opened succesfully')
+
+	return browser
+
 def open_phantom():
 	'''Opens phantom browser'''
 	# https://stackoverflow.com/questions/35666067/selenium-phantomjs-custom-headers-in-python
@@ -55,7 +67,7 @@ def open_phantom():
 	browser.set_window_size(1124, 850)
 		
 	return browser
-
+	
 def logeate(browser):
 	'''Opens LinkedIn and logs into the account.
 	
@@ -67,17 +79,26 @@ def logeate(browser):
 
 	try:
 		# Open linkedin
-		browser.get('https://www.linkedin.com/uas/login')
+		#browser.get('https://www.linkedin.com/uas/login')
+		browser.get('https://www.linkedin.com')
 		time.sleep(random.uniform(1.5, 3.9))
 		# Login
-		emailElement = browser.find_element_by_id('session_key-login')
+		#emailElement = browser.find_element_by_id('session_key-login')
+		emailElement = browser.find_element_by_id('login-email')
 		emailElement.send_keys(data.lnkd_dat[0])
 		time.sleep(random.uniform(3.5, 6.9))
-		passElement = browser.find_element_by_id('session_password-login')
+		#passElement = browser.find_element_by_id('session_password-login')
+		passElement = browser.find_element_by_id('login-password')
 		passElement.send_keys(data.lnkd_dat[1])
 		passElement.submit()
+		print('1st logging attempt was succesfull')
+		time.sleep(random.uniform(0.7, 1.3))
 
-	except:
+	except Exception as e:
+		print('ERROR: First logging method failed')
+		print(e)
+		web_html = get_the_soup(browser)
+		save_the_soup(web_html, 'failed_logging_attempt')
 		# Try to login on a different url
 		browser.get('https://www.linkedin.com/home')
 		time.sleep(random.uniform(1.5, 3.9))
@@ -88,9 +109,8 @@ def logeate(browser):
 		passElement = browser.find_element_by_id('login-password')
 		passElement.send_keys(data.lnkd_dat[1])
 		passElement.submit()
-		print ('Browser error')
 	time.sleep(random.uniform(3.5, 6.9))
-	
+
 	return 
 
 def scroll_to_bottom(browser):
@@ -122,7 +142,7 @@ def scroll_to_bottom(browser):
 	return
 
 def scroll_to_experience(browser):
-	'''Scroll to the beginning of the experience section (currently not in use)'''	
+	'''Scroll to the beginning of the experience section (currently not in use)'''
 	time.sleep(random.uniform(0.5, 1.1))
 	# Get the position of the experience element
 	experience_element = browser.find_element_by_xpath("//header[@class='pv-profile-section__card-header']")
@@ -130,7 +150,7 @@ def scroll_to_experience(browser):
 	command = 'window.scrollTo('+ str(experience_position) + ', document.body.scrollHeight);'
 	browser.execute_script(command)
 	return
-	
+
 def scroll_to_education(browser):
 	'''Scroll to the beginning of the education section (currently not in use)'''
 	time.sleep(random.uniform(0.5, 1.1))
@@ -139,22 +159,22 @@ def scroll_to_education(browser):
 	experience_position = experience_element.location
 	command = 'window.scrollTo('+ str(experience_position) + ', document.body.scrollHeight);'
 	browser.execute_script(command)
-	return	
+	return
 
 def scroll_to_item(browser, xpath):
 	'''Scroll to the item given by the xpath provided.
-	
+
 	Parameters
 	----------
 	browser
 				Driver element.
-	
+
 	xpath
 				String with the desired element xpath.
-	
+
 	'''
-	
-	
+
+
 	time.sleep(random.uniform(0.5, 1.1))
 	# Get the position of the experience element
 	experience_element = browser.find_element_by_xpath(xpath)
@@ -165,20 +185,21 @@ def scroll_to_item(browser, xpath):
 	
 def expand_other_links(browser):
 	'''Expands the menu where other links are displayed.
-	
+
 	Parameters
 	----------
 	browser
 				Driver element.
-	
+
 	'''
-	
-	
+
+
 	print ('Expanding other links section')
 	try:
 		element = browser.find_element_by_xpath("//button[@class='contact-see-more-less link-without-visited-state']")
 		if element:
-			element.click()
+			#element.click()
+			browser.execute_script("arguments[0].click();", element)
 			print ('Other links section expanded')
 	except:
 		print ('Other links button not found')
@@ -199,7 +220,9 @@ def expand_all(browser):
 	
 	try:
 		while browser.find_element_by_xpath("//button[@class='pv-profile-section__see-more-inline link']"):
-			browser.find_element_by_xpath("//button[@class='pv-profile-section__see-more-inline link']").click()
+			#browser.find_element_by_xpath("//button[@class='pv-profile-section__see-more-inline link']").click()
+			button_element = browser.find_element_by_xpath("//button[@class='pv-profile-section__see-more-inline link']")
+			browser.execute_script("arguments[0].click();", button_element)
 			time.sleep(random.uniform(0.5, 0.9))
 	except NoSuchElementException:
 		print ('No more expadable buttons')
@@ -222,11 +245,13 @@ def expand_summary(browser):
 	
 	buttons = browser.find_elements_by_xpath("//button[@class='pv-top-card-section__summary-toggle-button button-tertiary-small mt4']")
 	if buttons:
-		buttons[0].click()
+		#buttons[0].click()
+		button_element = buttons[0]
+		browser.execute_script("arguments[0].click();", button_element)
 	return
 
 def expand_skills(browser):
-	'''Expan the skills section.
+	'''Expand the skills section.
 	
 	Parameters
 	----------
@@ -248,7 +273,9 @@ def expand_skills(browser):
 		print (button_xpath)
 		buttons = browser.find_elements_by_xpath(button_xpath)
 		if buttons:
-			buttons[0].click()
+			#buttons[0].click()
+			button_element = buttons[0]
+			browser.execute_script("arguments[0].click();", button_element)
 			time.sleep(random.uniform(0.5, 0.9))
 			print ('Skills expanded')
 			break
@@ -264,10 +291,12 @@ def expand_header(browser):
 				Driver element.
 	
 	'''
-	
-	
+
+
 	try:
-		browser.find_element_by_xpath("//button[@class='pv-top-card-section__summary-toggle-button button-tertiary-small mt4']").click()
+		#browser.find_element_by_xpath("//button[@class='pv-top-card-section__summary-toggle-button button-tertiary-small mt4']").click()
+		button_element = browser.find_element_by_xpath("//button[@class='pv-top-card-section__summary-toggle-button button-tertiary-small mt4']")
+		browser.execute_script("arguments[0].click()", button_element)
 	except NoSuchElementException:
 		print ('No resume to be expanded')
 		pass
@@ -287,39 +316,41 @@ def expand_all_activity(browser):
 	try:
 		expandable_buttons = browser.find_elements_by_xpath("//button[@class='see-more Sans-15px-black-55% hoverable-link-text']")
 		for button in expandable_buttons:
-			button.click()
-			
+			#button.click()
+			browser.execute_script("arguments[0].click();", button)
 	except:
 		print ('No more expandable buttons')
 	
 	return
 	
-def expand_all_accomplishments(browser):
-	'''Not in use'''
-	buttons = browser.find_elements_by_xpath("//button[@class='pv-accomplishments-block__expand']")
-	for i in range(0, len(buttons)):
-	#	element_start = "/html/body/div[5]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[7]/section/section["
-	#	element_end   = "]/div[@class='pv-accomplishments-block__expand']"
-	#	element       = element_start + str(i+1) + element_end
-	#	print element
-	#	button = browser.find_element_by_xpath(element)
-	#	button.click()
-		#flechitas = browser.find_elements_by_xpath(element)
-		#button_position = button.location
-		#command = 'window.scrollTo('+ str(button_position) + ', document.body.scrollHeight);'
-		#browser.execute_script(command)
-		#if flechitas:
-		#	flechitas[0].click()
-		attribute_name = buttons[i].get_attribute("data-control-name")
-		print ('data-control-name: ' + str(attribute_name))
-		broken_attribute = str(attribute_name.split('_'))
-		if 'expand' in broken_attribute:
-			print ('Clicking')
-			buttons[i].click()
-			time.sleep(random.uniform(2.5, 3.1))
-	print ('Total chevrons found: ' + str(len(buttons)))
-	
-	return
+#def expand_all_accomplishments(browser):
+#	'''Not in use'''
+#	buttons = browser.find_elements_by_xpath("//button[@class='pv-accomplishments-block__expand']")
+#	for i in range(0, len(buttons)):
+#	#	element_start = "/html/body/div[5]/div[3]/div[2]/div/div/div/div[2]/div[1]/div[2]/div[7]/section/section["
+#	#	element_end   = "]/div[@class='pv-accomplishments-block__expand']"
+#	#	element       = element_start + str(i+1) + element_end
+#	#	print element
+#	#	button = browser.find_element_by_xpath(element)
+#	#	button.click()
+#		#flechitas = browser.find_elements_by_xpath(element)
+#		#button_position = button.location
+#		#command = 'window.scrollTo('+ str(button_position) + ', document.body.scrollHeight);'
+#		#browser.execute_script(command)
+#		#if flechitas:
+#		#	flechitas[0].click()
+#		attribute_name = buttons[i].get_attribute("data-control-name")
+#		print ('data-control-name: ' + str(attribute_name))
+#		broken_attribute = str(attribute_name.split('_'))
+#		if 'expand' in broken_attribute:
+#			print ('Clicking')
+#			#buttons[i].click()
+#			button_element = buttons[i]
+#			browser.execute_script("arguments[0].click();", button_element)
+#			time.sleep(random.uniform(2.5, 3.1))
+#	print ('Total chevrons found: ' + str(len(buttons)))
+#
+#	return
 
 def click_that_accomplishment_button(browser, button_label):
 	'''Clicks the accomplishment button which data-control-name label is equal to the variable button_label.
@@ -332,13 +363,16 @@ def click_that_accomplishment_button(browser, button_label):
 				String. Accomplishment data-control-name value.
 	
 	'''
-	
-	
+
+
 	print ('Clicking accomplishment button: ' + str(button_label))
 	button_xpath = "//button[@data-control-name='" + str(button_label) + "']"
 	scroll_to_item(browser, button_xpath)
 	buttons = browser.find_elements_by_xpath(button_xpath)
-	buttons[0].click()
+	#buttons[0].click()
+	button_element = buttons[0]
+	browser.execute_script("arguments[0].click();", button_element)
+
 	return
 	
 def get_extra_interests(browser, url):
@@ -372,7 +406,7 @@ def scroll_interets(browser):
 			time.sleep(random.uniform(0.3, 0.7))
 			old_amount = new_amount
 			interest_elements = browser.find_elements_by_xpath("//li[@class=' entity-list-item']")
-			new_amount = len(interest_elements)		
+			new_amount = len(interest_elements)
 			if new_amount != old_amount:
 				interest_elements[-1].location_once_scrolled_into_view
 	except:
@@ -387,7 +421,9 @@ def open_received_recommendations(browser):
 	tabs = browser.find_elements_by_tag_name('artdeco-tab')
 	if tabs:
 		try:
-			tabs[0].click()
+			#tabs[0].click()
+			button_element = tabs[0]
+			browser.execute_script("arguments[0].click();", button_element)
 			print ('Open received recommendations')
 			time.sleep(random.uniform(0.3, 0.5))
 
@@ -396,7 +432,9 @@ def open_received_recommendations(browser):
 			if expand_buttons:
 				for i in range(0, len(expand_buttons)):
 					try:
-						expand_buttons[i].click()
+						#expand_buttons[i].click()
+						button_element = expand_buttons[i]
+						browser.execute_script("arguments[0].click();", button_element)
 						time.sleep(random.uniform(0.1, 0.3))
 					except NoSuchElementException:
 						print ('No more expadable buttons')
@@ -417,7 +455,9 @@ def open_given_recommendations(browser):
 	tabs = browser.find_elements_by_tag_name('artdeco-tab')
 	if tabs:
 		try:
-			tabs[1].click()
+			#tabs[1].click()
+			button_element = tabs[1]
+			browser.execute_script("arguments[0].click();", button_element)
 			print ('Open given recommendations')
 			time.sleep(random.uniform(0.3, 0.5))
 
@@ -426,7 +466,9 @@ def open_given_recommendations(browser):
 			if expand_buttons:
 				for i in range(0, len(expand_buttons)):
 					try:
-						expand_buttons[i].click()
+						#expand_buttons[i].click()
+						button_element = expand_buttons[i]
+						browser.execute_script("arguments[0].click();", button_element)
 						time.sleep(random.uniform(0.1, 0.3))
 					except NoSuchElementException:
 						print ('No more expadable buttons')

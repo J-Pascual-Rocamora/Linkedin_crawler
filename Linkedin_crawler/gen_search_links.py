@@ -3,7 +3,7 @@
 import os
 import sys
 import logging
-from titles import accounting_job_titles
+from Linkedin_crawler.inputs.titles import job_titles
 
 def generate_links(max_pages):
 	'''Generates linkedin search links. Generates a number of search pages for each job title equal to max_pages. 
@@ -20,8 +20,8 @@ def generate_links(max_pages):
 
 	# Printing for tracking
 	print ('The positions been looked for are:')
-	for j in range(0, len(accounting_job_titles)):
-		print ('\t' + str(accounting_job_titles[j]))
+	for j in range(0, len(job_titles)):
+		print ('\t' + str(job_titles[j]))
 
 	print ('')
 	
@@ -32,14 +32,14 @@ def generate_links(max_pages):
 
 	cwd = os.getcwd()
 	if sys.platform == 'win32':
-		output_file = str(cwd) + r'\files_data\vars\searches_links.txt'
+		output_file = str(cwd) + r'\Linkedin_crawler\vars\searches_links.txt'
 	else:
-		output_file = str(cwd) + r'/files_data/vars/searches_links.txt'
+		output_file = str(cwd) + r'/Linkedin_crawler/vars/searches_links.txt'
 	f = open(output_file,'w')
 	
-	for n in range(0, len(accounting_job_titles)):
+	for n in range(0, len(job_titles)):
 		# Create links
-		tbp = accounting_job_titles[n].replace(" ", "%20")
+		tbp = job_titles[n].replace(" ", "%20")
 		url = url_head + tbp + url_end
 		f.write(str(url) +'\n')
 		for i in range(2, max_pages):
@@ -47,7 +47,7 @@ def generate_links(max_pages):
 			f.write(str(url_number) +'\n')
 	f.close()
 	
-	total_links = len(accounting_job_titles) * (max_pages)
+	total_links = len(job_titles) * (max_pages)
 	
 	logger.info('%s linkedin search links generated', total_links)
 	

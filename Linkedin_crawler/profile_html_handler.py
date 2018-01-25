@@ -2,8 +2,6 @@
 
 import os
 import re
-# Try like this
-#import urlparse
 from bs4 import BeautifulSoup
 
 def get_top_card(web_html):
@@ -30,10 +28,10 @@ def get_top_card(web_html):
 
 	
 	info_block = []
-		
+
 	#top_card_section = web_html.find('div', attrs={'class':'pv-top-card-section__information mt3 ember-view'})
 	top_card_section = web_html.find('section', attrs={'class':'pv-profile-section pv-top-card-section artdeco-container-card ember-view'})
-		
+
 	# Get the name
 	name_html = top_card_section.find('h1', attrs={'class':'pv-top-card-section__name Sans-26px-black-85%'})
 	name_html = web_html.find('h1', attrs={'class':'pv-top-card-section__name Sans-26px-black-85%'})
@@ -50,7 +48,7 @@ def get_top_card(web_html):
 			except:
 				pass
 	#print 'Name: ' + str(name_text.encode('utf-8'))
-	
+
 	# Get distance value (network distance)
 	distance_html = top_card_section.find('span', attrs={'class':'dist-value'})
 	if distance_html:
@@ -74,7 +72,7 @@ def get_top_card(web_html):
 		current_company  = ''
 	#print 'Current postion: ' + str(current_position.encode('utf-8'))
 	#print 'Current company: ' + str(current_company.encode('utf-8'))
-	
+
 	# Get last company
 	last_company_html = top_card_section.find('h3', attrs={'class':'pv-top-card-section__company Sans-17px-black-70% mb1 inline-block'})
 	if last_company_html:
@@ -82,7 +80,7 @@ def get_top_card(web_html):
 	if not last_company_html:
 		last_company_text = ''
 	#print 'Last company: ' + str(last_company_text.encode('utf-8'))
-	
+
 	# Get last education
 	last_education_html = top_card_section.find('h3', attrs={'class':'pv-top-card-section__school pv-top-card-section__school--with-separator Sans-17px-black-70% mb1 inline-block'})
 	if last_education_html:
@@ -193,8 +191,8 @@ def get_jobs(web_html):
 					 'pv-profile-section__section-info section-info pv-profile-section__section-info--has-more ember-view',
 					 'pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more',
 					 'pv-profile-section__section-info section-info pv-profile-section__section-info--has-no-more ember-view',]
-	
-	
+
+
 	experience_section = web_html.find('section', attrs={'class':'pv-profile-section experience-section ember-view'})
 	
 	if experience_section:

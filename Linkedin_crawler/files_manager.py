@@ -19,19 +19,19 @@ def reset_files():
 	f = open(error_log, 'w')
 	f.close()
 
-	searches = str(cwd) + r'\files_data\vars\searches_links.txt'
+	searches = str(cwd) + r'\Linkedin_crawler\vars\searches_links.txt'
 	f = open(searches, 'w')
 	f.close()
 	
-	people_file = str(cwd) + r'\files_data\vars\people.txt'
+	people_file = str(cwd) + r'\Linkedin_crawler\vars\people.txt'
 	f = open(people_file,'w')
 	f.close()
 	
-	people_sorted_file = str(cwd) + r'\files_data\vars\people_sorted.txt'
+	people_sorted_file = str(cwd) + r'\Linkedin_crawler\vars\people_sorted.txt'
 	f = open(people_sorted_file,'w')
 	f.close()
 	
-	matched_links_file = str(cwd) + r'\files_data\vars\matched_links.txt'
+	matched_links_file = str(cwd) + r'\Linkedin_crawler\vars\matched_links.txt'
 	f = open(matched_links_file,'w')
 	f.close()
 	
@@ -49,13 +49,13 @@ def create_folders():
 		log_dir      = str(cwd) + r'\log'
 		results_dir  = str(cwd) + r'\results'
 		output_texts = str(cwd) + r'\output_texts'
-		vars_dir     = str(cwd) + '\files_data\vars'
+		vars_dir     = str(cwd) + '\Linkedin_crawler\vars'
 	
 	else:
 		log_dir      = str(cwd) + r'/log'
 		results_dir  = str(cwd) + r'/results'
 		output_texts = str(cwd) + r'/output_texts'
-		vars_dir     = str(cwd) + '/files_data/vars'
+		vars_dir     = str(cwd) + '/Linkedin_crawler/vars'
 	
 	
 	if not os.path.exists(log_dir):

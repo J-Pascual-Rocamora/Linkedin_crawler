@@ -1,8 +1,6 @@
 # 2nd: Extracts the linkedin pofiles
 
-#import buscador
 from . import buscador
-#import urlparse
 import logging
 import re
 import os
@@ -11,7 +9,6 @@ import time
 import random
 import sys
 from bs4 import BeautifulSoup
-#import soup_handler
 from . import soup_handler
 	
 
@@ -33,9 +30,9 @@ def get_them(browser):
 	
 	cwd = os.getcwd()
 	if sys.platform == 'win32':
-		input_file = str(cwd) + r'\files_data\vars\searches_links.txt'
+		input_file = str(cwd) + r'\Linkedin_crawler\vars\searches_links.txt'
 	else:
-		input_file = str(cwd) + r'/files_data/vars/searches_links.txt'
+		input_file = str(cwd) + r'/Linkedin_crawler/vars/searches_links.txt'
 	f_input = open(input_file, 'r')
 	
 	# Read data
@@ -45,9 +42,9 @@ def get_them(browser):
 	f_input.close()
 	
 	if sys.platform == 'win32':
-		output_file = str(cwd) + r'\files_data\vars\people.txt'
+		output_file = str(cwd) + r'\Linkedin_crawler\vars\people.txt'
 	else:
-		output_file = str(cwd) + r'/files_data/vars/people.txt'
+		output_file = str(cwd) + r'/Linkedin_crawler/vars/people.txt'
 	f = open(output_file,'w')
 	
 	total_profiles = 0

@@ -3,20 +3,15 @@ import sys
 import time
 import argparse
 
-import files_data.sort as sort
-import files_data.match_new as match_new
-import files_data.get_profiles as get_profiles
-import files_data.gen_search_links as gen_search_links
-import files_data.buscador as buscador
+import Linkedin_crawler.sort as sort
+import Linkedin_crawler.match_new as match_new
+import Linkedin_crawler.get_profiles as get_profiles
+import Linkedin_crawler.gen_search_links as gen_search_links
+import Linkedin_crawler.buscador as buscador
 
-from titles import accounting_job_titles
 
 # Need to improve the flags
-# Might want to put the filter as an option
-
-# Ideas:
-# 1.- Create a main which runs all the other scripts.
-# 2.- If a script fails, send email 
+# Might want to put the filter as an option 
 
 
 def commandLineArgs():
@@ -111,5 +106,5 @@ if __name__=="__main__":
 	
 	total_time = end_time - start_time
 	
-	print ''
-	print 'Execution time: ' + str(total_time) + ' s. | ' + str(total_time/60) + ' min. | ' + str(total_time/3600) + ' h.'
+	print ('')
+	print ('Execution time: ' + str(total_time) + ' s. | ' + str(total_time/60) + ' min. | ' + str(total_time/3600) + ' h.')

@@ -9,15 +9,15 @@ import argparse
 import logging
 
 import linkedin_crawler as linkedin_crawler
-import lknd_analyzer as lknd_analyzer
-import files_data.sort as sort
-import files_data.match_new as match_new
-import files_data.get_profiles as get_profiles
-import files_data.gen_search_links as gen_search_links
-import files_data.buscador as buscador
-import files_data.emailing as emailing
-import files_data.email_templates as email_templates
-import files_data.files_manager as files_manager
+import linkedin_profile_analyzer as linkedin_profile_analyzer
+import Linkedin_crawler.sort as sort
+import Linkedin_crawler.match_new as match_new
+import Linkedin_crawler.get_profiles as get_profiles
+import Linkedin_crawler.gen_search_links as gen_search_links
+import Linkedin_crawler.buscador as buscador
+import Linkedin_crawler.emailing as emailing
+import Linkedin_crawler.email_templates as email_templates
+import Linkedin_crawler.files_manager as files_manager
 
 # Django specific settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
@@ -27,7 +27,7 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 # Your application specific imports
-from files_data.models import *
+from Linkedin_crawler.models import *
 
 
 def commandLineArgs():
@@ -59,6 +59,10 @@ def commandLineArgs():
 						
     parser.add_argument("-F", action='store_true', dest='firefox_flag', default=False,
 						help='''Uses visible Firefox browser. Default=False''')
+	
+    parser.add_argument("-U", action='store_true', dest='update_flag', default=False,
+						help='''Updates database entries. Default=False''')
+
 	
     return parser.parse_args()
 
@@ -94,10 +98,11 @@ if __name__=="__main__":
 	
 	args = commandLineArgs()
 	pages_per_search   = args.page_number
-	debugging_flag     = args.debugging_mode
+	file_flag          = args.debugging_mode
 	lnkd_search_flag   = args.lkn_searcher
 	terminal_file_flag = args.terminal_file
 	firefox_flag       = args.firefox_flag
+	update_flag        = args.update_flag
 	
 	# Create folders if they do not exist
 	files_manager.create_folders()
@@ -115,13 +120,13 @@ if __name__=="__main__":
 		sys.stdout = terminal_output
 	
 	logger.info('Number of search engine pages per search: %s', pages_per_search)
-	logger.info('Debuggin_flag: %s', debugging_flag)
+	logger.info('Debuggin_flag: %s', file_flag)
 	
-	# Initiate browser and log in
+	#Initiate browser and log in
 	if firefox_flag == True:
 		browser = buscador.open_browser()
 	if firefox_flag == False:
-		browser = buscador.open_headless()
+		browser = buscador.open_chrome()
 	buscador.logeate(browser)
 
 	logger.info('Browser is open')
@@ -137,9 +142,9 @@ if __name__=="__main__":
 	# Open Links_file
 	cwd = os.getcwd()
 	if sys.platform == 'win32':
-		output_file = str(cwd) + r'\files_data\vars\people_sorted.txt'
+		output_file = str(cwd) + r'\Linkedin_crawler\vars\people_sorted.txt'
 	else:
-		output_file = str(cwd) + r'/files_data/vars/people_sorted.txt'
+		output_file = str(cwd) + r'/Linkedin_crawler/vars/people_sorted.txt'
 	links_file = open(output_file, 'r')
 
 	link_counter   = 0
@@ -152,10 +157,7 @@ if __name__=="__main__":
 		url = str(line).replace('\n', '')
 		try:
 			# Check if link has been analyzed
-			if debugging_flag == False:
-				lknd_analyzer.analyse(browser, url)
-			if debugging_flag == True:
-				lknd_analyzer.debug_analyse(browser, url)
+			linkedin_profile_analyzer.analyse(browser, file_flag, update_flag, url)
 			print ('')
 			print ('-'*25)
 			print ('')

@@ -17,9 +17,9 @@ def minimize_people():
 	
 	cwd = os.getcwd()
 	if sys.platform == 'win32':
-		input_file = str(cwd) + r'\files_data\vars\people.txt'
+		input_file = str(cwd) + r'\Linkedin_crawler\vars\people.txt'
 	else:
-		input_file = str(cwd) + r'/files_data/vars/people.txt'
+		input_file = str(cwd) + r'/Linkedin_crawler/vars/people.txt'
 	f_input = open(input_file, 'r')
 	people_links = []
 	# Reads data in
@@ -35,9 +35,9 @@ def minimize_people():
 	duplicated_links = len(people_links) - len(min_people)
 	
 	if sys.platform == 'win32':
-		output_file = str(cwd) + r'\files_data\vars\people_sorted.txt'
+		output_file = str(cwd) + r'\Linkedin_crawler\vars\people_sorted.txt'
 	else:
-		output_file = str(cwd) + r'/files_data/vars/people_sorted.txt'
+		output_file = str(cwd) + r'/Linkedin_crawler/vars/people_sorted.txt'
 	f = open(output_file, 'w')
 	
 	# Generate output file
